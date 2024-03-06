@@ -1,26 +1,28 @@
 import os
 import csv
+import shutil
 from collections import defaultdict
 
 # Define the root directory for all datasets we have
-root_dir = "/path/to/root/dataset"
+root_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Create a dictionary to keep track of the number of files processed per label
 label_file_count = defaultdict(lambda: [0, 0, 0])  # [train, validate, evaluate]
 
+# If the csvFiles directory exists, remove it and create a new one
+csv_dir = os.path.join(root_dir, 'csvFiles')
+if os.path.exists(csv_dir):
+    shutil.rmtree(csv_dir)
+os.makedirs(csv_dir)
+
 # Open the output files in write mode
-with open('../csvFilesReduced/train.csv', 'w', newline='') as f_train, \
-     open('../csvFilesReduced/validate.csv', 'w', newline='') as f_validate, \
-     open('../csvFilesReduced/evaluate.csv', 'w', newline='') as f_evaluate:
+with open(os.path.join(csv_dir, 'train.csv'), 'w', newline='') as f_train, \
+     open(os.path.join(csv_dir, 'validate.csv'), 'w', newline='') as f_validate, \
+     open(os.path.join(csv_dir, 'evaluate.csv'), 'w', newline='') as f_evaluate:
 
     writer_train = csv.writer(f_train, delimiter=',')
     writer_validate = csv.writer(f_validate, delimiter=',')
     writer_evaluate = csv.writer(f_evaluate, delimiter=',')
-
-    # Write the headers
-    writer_train.writerow(['name', 'full_path', 'label'])
-    writer_validate.writerow(['name', 'full_path', 'label'])
-    writer_evaluate.writerow(['name', 'full_path', 'label'])
 
     # Walk through the directories and subdirectories
     for dirpath, dirnames, filenames in os.walk(root_dir):

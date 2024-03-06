@@ -1,4 +1,4 @@
-from train1 import CNN_RNN, device, test_loader
+from train import CNN_RNN, device, test_loader
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np

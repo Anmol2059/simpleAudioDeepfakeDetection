@@ -1,0 +1,8 @@
+data*fake*003030016,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003030016.wav,spoof
+data*fake*003030024,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003030024.wav,spoof
+data*fake*003030013,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003030013.wav,spoof
+data*fake*003020026,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003020026.wav,spoof
+data*real*real3,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/real3.WAV,bonafide
+data*real*000320004,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/000320004.WAV,bonafide
+data*real*real1,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/real1.WAV,bonafide
+data*real*000320007,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/000320007.WAV,bonafide

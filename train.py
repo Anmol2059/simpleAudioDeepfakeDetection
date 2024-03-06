@@ -18,9 +18,9 @@ else:
 print("Device:", device)
 
 # Load the data
-train_data = pd.read_csv('../csvFilesReduced/train.csv', names=['name', 'path', 'label'])
-validation_data = pd.read_csv('../csvFilesReduced/validate.csv', names=['name', 'path', 'label'])
-evaluation_data = pd.read_csv('../csvFilesReduced/evaluate.csv', names=['name', 'path', 'label'])
+train_data = pd.read_csv('csvFiles/train.csv', names=['name', 'path', 'label'])
+validation_data = pd.read_csv('csvFiles/validate.csv', names=['name', 'path', 'label'])
+evaluation_data = pd.read_csv('csvFiles/evaluate.csv', names=['name', 'path', 'label'])
 
 print("Datasets loaded successfully")
 
@@ -112,8 +112,8 @@ class CNN_RNN(nn.Module):
         x = self.fc2(x)
         return x
 # Initialize the model, loss function and optimizer
-# model = CNN_RNN().to(device)
-model = torch.load('CNN_RNNv1.pth', map_location=device)
+model = CNN_RNN().to(device)
+# model = torch.load('CNN_RNNv1.pth', map_location=device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters())
 

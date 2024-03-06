@@ -1,0 +1,4 @@
+data*fake*003030021,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003030021.wav,spoof
+data*fake*003030018,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/fake/003030018.wav,spoof
+data*real*000320013,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/000320013.WAV,bonafide
+data*real*000320015,/raid/zihan/data/anmolLearn/myOwnSpeechDetection/data/real/000320015.WAV,bonafide
