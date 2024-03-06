@@ -1,4 +1,0 @@
-# Ignore generated data file
-generateDataog.py
-__pycache__
-.gitignore
