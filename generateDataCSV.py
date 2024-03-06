@@ -1,28 +1,26 @@
 import os
 import csv
-import shutil
 from collections import defaultdict
 
 # Define the root directory for all datasets we have
-root_dir = os.path.dirname(os.path.realpath(__file__))
+root_dir = "/raid/zihan/dataset"
 
-# Create a dictionary to keep track of the number of files processed per label
-label_file_count = defaultdict(lambda: [0, 0, 0])  # [train, validate, evaluate]
-
-# If the csvFiles directory exists, remove it and create a new one
-csv_dir = os.path.join(root_dir, 'csvFiles')
-if os.path.exists(csv_dir):
-    shutil.rmtree(csv_dir)
-os.makedirs(csv_dir)
+# Create a dictionary to keep track of the number of files processed per model
+model_file_count = defaultdict(lambda: [0, 0, 0])  # [train, validate, evaluate]
 
 # Open the output files in write mode
-with open(os.path.join(csv_dir, 'train.csv'), 'w', newline='') as f_train, \
-     open(os.path.join(csv_dir, 'validate.csv'), 'w', newline='') as f_validate, \
-     open(os.path.join(csv_dir, 'evaluate.csv'), 'w', newline='') as f_evaluate:
+with open('train.csv', 'w', newline='') as f_train, \
+     open('validate.csv', 'w', newline='') as f_validate, \
+     open('evaluate.csv', 'w', newline='') as f_evaluate:
 
     writer_train = csv.writer(f_train, delimiter=',')
     writer_validate = csv.writer(f_validate, delimiter=',')
     writer_evaluate = csv.writer(f_evaluate, delimiter=',')
+
+    # Write the headers
+    writer_train.writerow(['name', 'full_path', 'label'])
+    writer_validate.writerow(['name', 'full_path', 'label'])
+    writer_evaluate.writerow(['name', 'full_path', 'label'])
 
     # Walk through the directories and subdirectories
     for dirpath, dirnames, filenames in os.walk(root_dir):
@@ -35,17 +33,30 @@ with open(os.path.join(csv_dir, 'train.csv'), 'w', newline='') as f_train, \
                 # Construct the name by replacing the root directory and .wav or .WAV extension
                 name = full_path.replace(root_dir + '/', '').replace('.wav', '').replace('.WAV', '').replace('/', '*')
 
-                # Determine the label
-                label = 'bonafide' if 'real' in dirpath else 'spoof'
+                # Get the model name from the name
+                model_name = name.split('*')[0]
 
-                # Split the data into a 7:2:1 ratio for training, validation, and evaluation sets
-                split = sum(label_file_count[label]) % 10
-                if split < 7:  # Training set
-                    writer_train.writerow([name, full_path, label])
-                    label_file_count[label][0] += 1
-                elif split < 9:  # Validation set
-                    writer_validate.writerow([name, full_path, label])
-                    label_file_count[label][1] += 1
-                else:  # Evaluation set
-                    writer_evaluate.writerow([name, full_path, label])
-                    label_file_count[label][2] += 1
+                # Determine the label
+                label = 'bonafide' if model_name == 'IDMA' else 'spoof'
+
+                # Write the name, full path, and label to the appropriate .csv file
+                if model_name == 'IDMA':
+                    if model_file_count[model_name][0] < 5500:  # Training set
+                        writer_train.writerow([name, full_path, label])
+                        model_file_count[model_name][0] += 1
+                    elif model_file_count[model_name][1] < 1500:  # Validation set
+                        writer_validate.writerow([name, full_path, label])
+                        model_file_count[model_name][1] += 1
+                    elif model_file_count[model_name][2] < 1300:  # Evaluation set
+                        writer_evaluate.writerow([name, full_path, label])
+                        model_file_count[model_name][2] += 1
+                else:
+                    if model_file_count[model_name][0] < 700:  # Training set
+                        writer_train.writerow([name, full_path, label])
+                        model_file_count[model_name][0] += 1
+                    elif model_file_count[model_name][1] < 300:  # Validation set
+                        writer_validate.writerow([name, full_path, label])
+                        model_file_count[model_name][1] += 1
+                    elif model_file_count[model_name][2] < 300:  # Evaluation set
+                        writer_evaluate.writerow([name, full_path, label])
+                        model_file_count[model_name][2] += 1
