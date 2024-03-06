@@ -10,9 +10,11 @@ from torch.nn import functional as F
 import pickle
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available() and torch.cuda.device_count() > 2:
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+    device = torch.device("cuda")
+else:
+    device = torch.device("cpu")
 print("Device:", device)
 
 # Load the data
