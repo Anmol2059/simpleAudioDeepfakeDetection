@@ -2,6 +2,7 @@ pandas
 numpy
 librosa
 torch
+matplotlib
 scikit-learn
 pickle-mixin
 streamlit
