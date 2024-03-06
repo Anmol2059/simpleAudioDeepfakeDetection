@@ -1,2 +1,5 @@
 # Ignore generated data file
-generateData.py
+generateDataog.py
+.gitignore
+__pycache__
+
