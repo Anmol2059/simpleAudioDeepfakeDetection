@@ -1,0 +1,7 @@
+pandas
+numpy
+librosa
+torch
+scikit-learn
+pickle-mixin
+streamlit
