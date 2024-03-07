@@ -115,6 +115,8 @@ if uploaded_file is not None:
 
         # Display model architecture
         st.text(str(model))
+        st.markdown("---")
+        st.markdown("Made by Anmol 👨‍💻 | v0.01  ")
 
     else:
         st.error('Could not extract features from the audio file.')
