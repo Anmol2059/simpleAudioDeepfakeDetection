@@ -118,5 +118,5 @@ print(f'Precision: {precision:.2f}')
 print(f'Recall: {recall:.2f}')
 
 # Save the model
-torch.save(model.state_dict(), 'CNN_RNNv2.pth')
+torch.save(model.state_dict(), 'sampleCNN_RNNv2.pth')
 print("Model saved successfully")

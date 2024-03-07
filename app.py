@@ -1,6 +1,7 @@
 import streamlit as st
 import torch
 import numpy as np
+import os
 import librosa
 from torch import nn
 from torch.nn import functional as F
@@ -41,9 +42,14 @@ def extract_features(file):
 
 # Load the model
 model = CNN_RNN()
-model.load_state_dict(torch.load('sampleCNN_RNNv2.pth'))
-model.eval()
 
+model_file = 'sampleCNN_RNNv2.pth'
+if os.path.isfile(model_file):
+    model.load_state_dict(torch.load(model_file))
+    model.eval()
+else:
+    st.error('Model file not found. Please run trainProcessedSample.py first to generate the model.')
+    st.stop()
 # Streamlit app
 st.title('Audio Deepfake Detection App')
 
