@@ -44,13 +44,17 @@ This project focuses on detecting deepfake speech using a combination of Convolu
    ```bash
    python generateDataCSV.py
    ```
-   - The generated CSV files will be saved in the `csvFilesReduced` directory.
+   - The generated CSV files will be saved in the `csvFilesReduced` directory, as evaluate train and validate.csv.
 
 ### 2. Train the Model
 
-1. Run the `train1.py` script to train the model:
+1. Run the `train.py` script to train the model:
    ```bash
-   python train1.py
+   python train.py
+   ```
+1.1. You may also Run the `trainProcessedSample.py` script to train the model, here features are already extracted of a large dataset:
+   ```bash
+   python trainProcessedSample.py
    ```
 
 ### 3. Evaluate the Model

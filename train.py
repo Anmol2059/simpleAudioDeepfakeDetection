@@ -40,44 +40,39 @@ def extract_features(file_name):
 # Function to process the data
 
 def process_data(df, X_save_path, y_save_path):
-    # Check if processed data already exists
-    if os.path.exists(X_save_path) and os.path.exists(y_save_path):
-        X = np.load(X_save_path)
-        y = np.load(y_save_path)
-        print(f"Loaded processed data from {X_save_path} and {y_save_path}")
-    else:
-        features = []
-        total_files = len(df)
-        for i, (index, row) in enumerate(df.iterrows(), 1):
-            file_name = row['path']
-            class_label = row['label']
-            data = extract_features(file_name)
-            features.append([data, class_label])
-            print(f"Processed {i}/{total_files} files", end='\r')  # \r to overwrite the previous print
 
-        # Convert into a Panda dataframe 
-        featuresdf = pd.DataFrame(features, columns=['feature','class_label'])
+    features = []
+    total_files = len(df)
+    for i, (index, row) in enumerate(df.iterrows(), 1):
+        file_name = row['path']
+        class_label = row['label']
+        data = extract_features(file_name)
+        features.append([data, class_label])
+        print(f"Processed {i}/{total_files} files", end='\r')  # \r to overwrite the previous print
 
-        # Convert features and corresponding classification labels into numpy arrays
-        X = np.array(featuresdf.feature.tolist())
-        y = np.array(featuresdf.class_label.tolist())
+    # Convert into a Panda dataframe 
+    featuresdf = pd.DataFrame(features, columns=['feature','class_label'])
 
-        # Encode the classification labels
-        le = LabelEncoder()
-        y = le.fit_transform(y)
+    # Convert features and corresponding classification labels into numpy arrays
+    X = np.array(featuresdf.feature.tolist())
+    y = np.array(featuresdf.class_label.tolist())
 
-        # Save the processed data
-        np.save(X_save_path, X)
-        np.save(y_save_path, y)
-        print(f"Saved processed data to {X_save_path} and {y_save_path}")
+    # Encode the classification labels
+    le = LabelEncoder()
+    y = le.fit_transform(y)
+    os.makedirs(os.path.dirname(X_save_path), exist_ok=True)
+    # Save the processed data
+    np.save(X_save_path, X)
+    np.save(y_save_path, y)
+    print(f"Saved processed data to {X_save_path} and {y_save_path}")
 
     print("\nData processing done")
     return X, y
 
 # Process the data
-x_train, y_train = process_data(train_data, 'processedDataSample/train_data_X.npy', 'processedDataSample/train_data_y.npy')
-x_val, y_val = process_data(validation_data, 'processedDataSample/val_data_X.npy', 'processedDataSample/val_data_y.npy')
-x_test, y_test = process_data(evaluation_data, 'processedDataSample/test_data_X.npy', 'processedDataSample/test_data_y.npy')
+x_train, y_train = process_data(train_data, 'processedData/train_data_X.npy', 'processedData/train_data_y.npy')
+x_val, y_val = process_data(validation_data, 'processedData/val_data_X.npy', 'processedData/val_data_y.npy')
+x_test, y_test = process_data(evaluation_data, 'processedData/test_data_X.npy', 'processedData/test_data_y.npy')
 print("Data processing completed")
 
 # Convert data to PyTorch tensors and create dataloaders
@@ -154,5 +149,5 @@ with torch.no_grad():
 print('Test accuracy: %d %%' % (100 * correct / total))
 
 # Save the model
-torch.save(model.state_dict(), 'CNN_RNNv1.pth')
+torch.save(model.state_dict(), 'CNN_RNNv2.pth')
 print("Model saved successfully")

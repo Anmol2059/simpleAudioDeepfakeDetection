@@ -41,7 +41,7 @@ def extract_features(file):
 
 # Load the model
 model = CNN_RNN()
-model.load_state_dict(torch.load('CNN_RNNv1.pth'))
+model.load_state_dict(torch.load('CNN_RNNv2.pth'))
 model.eval()
 
 # Streamlit app
