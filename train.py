@@ -3,6 +3,7 @@ import numpy as np
 import librosa
 import torch
 from torch import nn
+from sklearn.metrics import f1_score, precision_score, recall_score
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.preprocessing import LabelEncoder
 from torch import flatten
@@ -125,7 +126,7 @@ for epoch in range(10):
         loss.backward()
         optimizer.step()
 
-    # Print accuracy after each epoch
+    # Print accuracy after each epoch validation set
     correct = 0
     total = 0
     with torch.no_grad():
@@ -136,9 +137,12 @@ for epoch in range(10):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     print('Validation accuracy after epoch %d: %d %%' % (epoch + 1, 100 * correct / total))
+
 # Evaluate the model on the test set
 correct = 0
 total = 0
+all_labels = []
+all_predictions = []
 with torch.no_grad():
     for inputs, labels in test_loader:
         inputs, labels = inputs.to(device), labels.to(device)
@@ -146,7 +150,21 @@ with torch.no_grad():
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
+
+        # Store the true labels and the predicted labels
+        all_labels.extend(labels.cpu().numpy())
+        all_predictions.extend(predicted.cpu().numpy())
+
 print('Test accuracy: %d %%' % (100 * correct / total))
+
+# Calculate F1 score, precision, and recall
+f1 = f1_score(all_labels, all_predictions, average='weighted')
+precision = precision_score(all_labels, all_predictions, average='weighted')
+recall = recall_score(all_labels, all_predictions, average='weighted')
+
+print(f'F1 Score: {f1:.2f}')
+print(f'Precision: {precision:.2f}')
+print(f'Recall: {recall:.2f}')
 
 # Save the model
 torch.save(model.state_dict(), 'CNN_RNNv2.pth')
