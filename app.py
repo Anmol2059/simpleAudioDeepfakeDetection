@@ -41,7 +41,7 @@ def extract_features(file):
 
 # Load the model
 model = CNN_RNN()
-model.load_state_dict(torch.load('CNN_RNNv2.pth'))
+model.load_state_dict(torch.load('sampleCNN_RNNv2.pth'))
 model.eval()
 
 # Streamlit app
@@ -115,6 +115,8 @@ if uploaded_file is not None:
 
         # Display model architecture
         st.text(str(model))
+        st.markdown("---")
+        st.markdown("Made by Anmol 👨‍💻 | v2.01  ")
 
     else:
         st.error('Could not extract features from the audio file.')

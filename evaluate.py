@@ -9,7 +9,7 @@ from sklearn.metrics import f1_score, precision_score, recall_score
 
 # Load the saved model
 model = CNN_RNN()  # Use the correct model
-model.load_state_dict(torch.load('CNN_RNNv1.pth'))
+model.load_state_dict(torch.load('sampleCNN_RNNv2.pth'))
 model.to(device)
 model.eval()
 

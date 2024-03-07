@@ -99,5 +99,5 @@ with torch.no_grad():
 print('Test accuracy: %d %%' % (100 * correct / total))
 
 # Save the model
-torch.save(model.state_dict(), 'CNN_RNNv2.pth')
+torch.save(model.state_dict(), 'sampleCNN_RNNv2.pth')
 print("Model saved successfully")
