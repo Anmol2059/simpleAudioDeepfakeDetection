@@ -38,7 +38,7 @@ def extract_features(file):
         print(f"Error encountered while parsing file. Error details: {e}")
         return None, None, None
      
-    return mfccsscaled, sample_rate, mfccs
+    return audio , mfccsscaled, sample_rate, mfccs
 
 # Load the model
 model = CNN_RNN()
@@ -59,7 +59,7 @@ if not uploaded_file:
     st.warning('Please upload a .wav file or record audio using the button below.')
 
 if uploaded_file is not None:
-    audio_data, sample_rate, mfccs = extract_features(uploaded_file)
+    raw_audio, audio_data, sample_rate, mfccs = extract_features(uploaded_file)
     if audio_data is not None:
         st.audio(uploaded_file, format='audio/wav', start_time=0)
         
@@ -79,7 +79,7 @@ if uploaded_file is not None:
         # Display audio waveform
         st.subheader('Audio Waveform')
         plt.figure(figsize=(10, 2))
-        plt.plot(np.linspace(0, len(audio_data)/sample_rate, len(audio_data)), audio_data)
+        plt.plot(np.linspace(0, len(raw_audio)/sample_rate, len(raw_audio)), raw_audio)
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')
         plt.title('Audio Waveform')
@@ -88,7 +88,7 @@ if uploaded_file is not None:
         # Display spectrogram
         st.subheader('Spectrogram')
         plt.figure(figsize=(10, 4))
-        plt.specgram(audio_data, Fs=sample_rate)
+        plt.specgram(raw_audio, Fs=sample_rate)
         plt.xlabel('Time (s)')
         plt.ylabel('Frequency (Hz)')
         plt.title('Spectrogram')

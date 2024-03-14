@@ -95,7 +95,7 @@ class CNN_RNN(nn.Module):
         super(CNN_RNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=(3, 1), stride=1, padding=(1, 0))
         self.pool = nn.MaxPool2d((2, 1), 2)
-        self.rnn = nn.RNN(32 * 20 * 1, 64, batch_first=True)  # RNN layer
+        self.rnn = nn.RNN(32*20*1, 64, batch_first=True)  # RNN layer
         self.fc1 = nn.Linear(64, 128)  # Adjusted input features
         self.fc2 = nn.Linear(128, 10)  # Adjusted output features
 
