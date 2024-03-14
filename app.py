@@ -88,9 +88,9 @@ if uploaded_file is not None:
         # Display spectrogram
         st.subheader('Spectrogram')
         plt.figure(figsize=(10, 4))
-        plt.specgram(raw_audio, Fs=sample_rate)
-        plt.xlabel('Time (s)')
-        plt.ylabel('Frequency (Hz)')
+        D = librosa.amplitude_to_db(np.abs(librosa.stft(raw_audio)), ref=np.max)
+        librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log')
+        plt.colorbar(format='%+2.0f dB')
         plt.title('Spectrogram')
         st.pyplot(plt)
 
